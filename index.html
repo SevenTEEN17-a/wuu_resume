@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吴悠悠 | 导演 & 视觉叙事者</title>
+    
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 引入 Google Fonts: Inter & Noto Sans SC for Apple-like typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 引入 Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        apple: {
+                            gray: '#F5F5F7',
+                            dark: '#1D1D1F',
+                            light: '#ffffff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 隐藏滚动条但保留滚动功能 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e5e5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4d4d4;
+        }
+
+        body {
+            background-color: #FAFAFA;
+            color: #1D1D1F;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 滚动揭示动画基础样式 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 图片放大视差效果 */
+        .img-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 作品筛选过渡 */
+        [data-category] {
+            transition: opacity 0.3s ease;
+        }
+
+        /* 玻璃拟态导航栏 */
+        .glass-nav {
+            background: rgba(250, 250, 250, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row min-h-screen">
+
+    <!-- 移动端顶部导航 (Mobile Only) -->
+    <header class="md:hidden fixed top-0 w-full glass-nav z-50 px-6 py-4 flex justify-between items-center border-b border-gray-100">
+        <div class="font-semibold tracking-widest text-lg">WU YOUYOU</div>
+        <button id="mobile-menu-btn" class="text-2xl"><i class="ph ph-list"></i></button>
+    </header>
+
+    <!-- 移动端下拉菜单 -->
+    <div id="mobile-menu" class="fixed inset-0 bg-white/95 backdrop-blur-lg z-40 hidden flex-col justify-center items-center space-y-8 text-2xl transition-opacity duration-300 opacity-0">
+        <a href="#hero" class="mobile-link text-gray-500 hover:text-black transition-colors">首页 Home</a>
+        <a href="#resume" class="mobile-link text-gray-500 hover:text-black transition-colors">履历 Resume</a>
+        <a href="#portfolio" class="mobile-link text-gray-500 hover:text-black transition-colors">作品集 Portfolio</a>
+        <a href="#contact" class="mobile-link text-gray-500 hover:text-black transition-colors">联系 Contact</a>
+    </div>
+
+    <!-- 左侧固定导航栏 (Desktop Only) -->
+    <nav class="hidden md:flex fixed left-0 top-0 h-screen w-64 glass-nav flex-col justify-between py-12 px-10 z-50">
+        <div>
+            <h1 class="font-bold text-2xl tracking-[0.2em] mb-2 uppercase">Wu</h1>
+            <h1 class="font-bold text-2xl tracking-[0.2em] mb-12 uppercase">Youyou</h1>
+            <ul class="space-y-6 text-sm font-medium tracking-wider text-gray-400">
+                <li>
+                    <a href="#hero" class="nav-link block hover:text-black transition-colors relative duration-300">
+                        <span class="absolute -left-4 opacity-0 transition-opacity duration-300 nav-indicator text-black">―</span>
+                        开屏首页
+                    </a>
+                </li>
+                <li>
+                    <a href="#resume" class="nav-link block hover:text-black transition-colors relative duration-300">
+                        <span class="absolute -left-4 opacity-0 transition-opacity duration-300 nav-indicator text-black">―</span>
+                        简历履历
+                    </a>
+                </li>
+                <li>
+                    <a href="#portfolio" class="nav-link block hover:text-black transition-colors relative duration-300">
+                        <span class="absolute -left-4 opacity-0 transition-opacity duration-300 nav-indicator text-black">―</span>
+                        作品集
+                    </a>
+                </li>
+                <li>
+                    <a href="#contact" class="nav-link block hover:text-black transition-colors relative duration-300">
+                        <span class="absolute -left-4 opacity-0 transition-opacity duration-300 nav-indicator text-black">―</span>
+                        联系方式
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="text-xs text-gray-400 flex gap-4">
+            <a href="#" class="hover:text-black transition-colors"><i class="ph ph-instagram-logo text-lg"></i></a>
+            <a href="#" class="hover:text-black transition-colors"><i class="ph ph-behance-logo text-lg"></i></a>
+            <a href="#" class="hover:text-black transition-colors"><i class="ph ph-envelope-simple text-lg"></i></a>
+        </div>
+    </nav>
+
+    <!-- 右侧主体内容区域 -->
+    <main class="flex-1 w-full md:ml-64 relative">
+        
+        <!-- 一、开屏首页 (Hero Section) -->
+        <section id="hero" class="min-h-screen relative flex items-center p-8 md:p-24 overflow-hidden">
+            <!-- 电影感全屏背景图 (可替换为视频) -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2918&auto=format&fit=crop" alt="Cinematic Background" class="w-full h-full object-cover opacity-30">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#FAFAFA]"></div>
+            </div>
+            
+            <div class="relative z-10 w-full max-w-4xl">
+                <p class="reveal text-sm tracking-[0.3em] text-gray-500 uppercase mb-4">Filmmaker & Visual Storyteller</p>
+                <h1 class="reveal text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter leading-none mb-6">
+                    吴悠悠.
+                </h1>
+                <p class="reveal text-xl md:text-3xl text-gray-600 font-light max-w-2xl leading-relaxed">
+                    Video Director / Editor <br>
+                    <span class="text-gray-400 text-lg md:text-xl">用电影级别的镜头语言，讲述细腻的视觉故事。</span>
+                </p>
+                <div class="reveal mt-12">
+                    <a href="#portfolio" class="group inline-flex items-center gap-2 border border-black/10 bg-white/50 backdrop-blur-md px-6 py-3 rounded-full hover:bg-black hover:text-white transition-all duration-500">
+                        <span>探索作品</span>
+                        <i class="ph ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 二、简历履历 (Resume Section) -->
+        <section id="resume" class="py-24 px-8 md:px-24 bg-white">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="reveal text-xs tracking-[0.2em] text-gray-400 uppercase mb-16">Background / 简历履历</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                    
+                    <!-- 教育经历 (Timeline) -->
+                    <div class="lg:col-span-5 reveal">
+                        <h3 class="text-2xl font-semibold mb-8">教育背景 <span class="text-gray-300 font-light">Education</span></h3>
+                        <div class="relative border-l border-gray-100 pl-8 space-y-12">
+                            <!-- ZJU -->
+                            <div class="relative">
+                                <div class="absolute w-3 h-3 bg-black rounded-full -left-[38px] top-2"></div>
+                                <div class="text-sm text-gray-400 mb-1">硕士 2024 – 2027</div>
+                                <h4 class="text-xl font-medium">浙江大学</h4>
+                                <p class="text-gray-500 mt-1">戏剧与影视 (国际联合商学院)</p>
+                            </div>
+                            <!-- ECNU -->
+                            <div class="relative">
+                                <div class="absolute w-2 h-2 bg-gray-300 rounded-full -left-[36px] top-2"></div>
+                                <div class="text-sm text-gray-400 mb-1">本科 2020 – 2024</div>
+                                <h4 class="text-xl font-medium">华东师范大学</h4>
+                                <p class="text-gray-500 mt-1">广播电视编导</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 技能卡片 (Card Layout) -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 reveal">
+                        <div class="bg-apple-gray p-8 rounded-3xl hover:shadow-lg transition-shadow duration-300">
+                            <h4 class="text-gray-400 text-sm mb-4">视频制作 / Video</h4>
+                            <ul class="text-lg font-medium space-y-2">
+                                <li>Premiere Pro</li>
+                                <li>Final Cut Pro</li>
+                                <li>剪映专业版</li>
+                            </ul>
+                        </div>
+                        <div class="bg-apple-gray p-8 rounded-3xl hover:shadow-lg transition-shadow duration-300">
+                            <h4 class="text-gray-400 text-sm mb-4">视觉设计 / Design</h4>
+                            <ul class="text-lg font-medium space-y-2">
+                                <li>Photoshop</li>
+                                <li>Lightroom</li>
+                                <li>Figma</li>
+                            </ul>
+                        </div>
+                        <div class="bg-apple-gray p-8 rounded-3xl hover:shadow-lg transition-shadow duration-300">
+                            <h4 class="text-gray-400 text-sm mb-4">综合能力 / Skills</h4>
+                            <ul class="text-lg font-medium space-y-2">
+                                <li>数据分析</li>
+                                <li>Excel / Office</li>
+                                <li>项目管理</li>
+                            </ul>
+                        </div>
+                        <div class="bg-apple-gray p-8 rounded-3xl hover:shadow-lg transition-shadow duration-300">
+                            <h4 class="text-gray-400 text-sm mb-4">语言 / Language</h4>
+                            <ul class="text-lg font-medium space-y-2">
+                                <li>IELTS 7.0</li>
+                                <li>CET-6</li>
+                                <li>CET-4</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 三、作品集 (Portfolio Section) -->
+        <section id="portfolio" class="py-24 px-8 md:px-24">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex justify-between items-end mb-16 reveal">
+                    <h2 class="text-xs tracking-[0.2em] text-gray-400 uppercase">Selected Works / 导演作品</h2>
+                    <div class="hidden md:flex gap-6 text-sm font-medium" id="portfolio-filters">
+                        <button data-filter="all" class="text-black border-b border-black pb-1 transition">All</button>
+                        <button data-filter="advertising" class="text-gray-400 hover:text-black transition">Advertising</button>
+                        <button data-filter="micro-film" class="text-gray-400 hover:text-black transition">Micro-film</button>
+                        <button data-filter="documentary" class="text-gray-400 hover:text-black transition">Documentary</button>
+                    </div>
+                </div>
+
+                <!-- 瀑布流 / Grid (电影感作品展示) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+
+                    <!-- 作品 1 -->
+                    <a href="https://www.xiaohongshu.com/explore/6709110a000000001a020290?xsec_token=ABpc-XBG0gQa2KwO4LCG4jWTnrfO-_kTXW12cGxs0CtnM=&xsec_source=pc_user" target="_blank" rel="noopener noreferrer" class="reveal img-zoom group cursor-pointer block" data-category="micro-film">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <img src="imgs/0.png" alt="微电影" class="w-full h-full object-cover transition-transform duration-700 ease-out">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <span class="bg-white/90 text-black px-6 py-2 rounded-full text-sm font-medium tracking-wide flex items-center gap-2">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    在小红书查看
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">任编剧&剪辑&副导演 极光之夜最佳影片</p>
+                        <h3 class="text-2xl font-medium group-hover:text-gray-600 transition-colors">《冇》</h3>
+                    </a>
+
+                    <!-- 作品 2 -->
+                    <a href="https://www.xiaohongshu.com/explore/67558b420000000002024cb1?xsec_token=ABuymLpMfaVW-xrJS_rv-mfKLlioVjvjQ1reMFYSj6DNc=&xsec_source=pc_user" target="_blank" rel="noopener noreferrer" class="reveal img-zoom group cursor-pointer block" data-category="micro-film">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <img src="imgs/2.png" alt="微电影" class="w-full h-full object-cover transition-transform duration-700 ease-out">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <span class="bg-white/90 text-black px-6 py-2 rounded-full text-sm font-medium tracking-wide flex items-center gap-2">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    在小红书查看
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">任编剧&导演&制片</p>
+                        <h3 class="text-2xl font-medium group-hover:text-gray-600 transition-colors">《人 human》</h3>
+                    </a>
+
+                    <!-- 作品 3 -->
+                    <a href="https://www.xiaohongshu.com/explore/694a4ddb000000001e00b5d6?xsec_token=ABvjdMRkN2i1FQo4wQQUGh9rSxVwZFe9IPw1c-fwRcsv0=&xsec_source=pc_user" target="_blank" rel="noopener noreferrer" class="reveal img-zoom group cursor-pointer block" data-category="micro-film">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <img src="imgs/4.png" alt="微电影" class="w-full h-full object-cover transition-transform duration-700 ease-out">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <span class="bg-white/90 text-black px-6 py-2 rounded-full text-sm font-medium tracking-wide flex items-center gap-2">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    在小红书查看
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">任导演&编剧&主演&后期 Psycshorts心理科普短视频大赛获奖作品</p>
+                        <h3 class="text-2xl font-medium group-hover:text-gray-600 transition-colors">《舔狗的逆袭》</h3>
+                    </a>
+
+                    <!-- 作品 4 -->
+                    <a href="https://www.xiaohongshu.com/explore/673c424000000000080041da?xsec_token=ABE1sIcHAYkcvvqkwHOlISK2ouNr2h-0kvhMQhOaphMuk=&xsec_source=pc_user" target="_blank" rel="noopener noreferrer" class="reveal img-zoom group cursor-pointer block" data-category="documentary">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <img src="imgs/6.png" alt="纪录片" class="w-full h-full object-cover transition-transform duration-700 ease-out">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <span class="bg-white/90 text-black px-6 py-2 rounded-full text-sm font-medium tracking-wide flex items-center gap-2">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    在小红书查看
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">任导演&编剧&摄影&后期</p>
+                        <h3 class="text-2xl font-medium group-hover:text-gray-600 transition-colors">《BADROOM》</h3>
+                    </a>
+
+                    <!-- 作品 5 -->
+                    <a href="https://www.xiaohongshu.com/explore/6905f1880000000007032871?xsec_token=ABVSFK-NNDvcJoSp3uAoSrUZv_wuUg05YyJl77JGfeNCQ=&xsec_source=pc_user" target="_blank" rel="noopener noreferrer" class="reveal img-zoom group cursor-pointer block" data-category="documentary">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <img src="imgs/8.png" alt="纪录片" class="w-full h-full object-cover transition-transform duration-700 ease-out">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <span class="bg-white/90 text-black px-6 py-2 rounded-full text-sm font-medium tracking-wide flex items-center gap-2">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    在小红书查看
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">任编剧&导演&后期 浙大优秀实践成果</p>
+                        <h3 class="text-2xl font-medium group-hover:text-gray-600 transition-colors">《在下姜村感知幸福》</h3>
+                    </a>
+
+                    <!-- 作品 6 -->
+                    <a href="https://www.xiaohongshu.com/explore/67c00369000000002903db50?xsec_token=ABmUJBJFXQd0Qh0McLfqFIbeB6fhdqUWjz0hnA-OLrvKQ=&xsec_source=pc_user" target="_blank" rel="noopener noreferrer" class="reveal img-zoom group cursor-pointer block" data-category="documentary">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <img src="imgs/10.png" alt="纪录片" class="w-full h-full object-cover transition-transform duration-700 ease-out">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <span class="bg-white/90 text-black px-6 py-2 rounded-full text-sm font-medium tracking-wide flex items-center gap-2">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    在小红书查看
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">任导演&编剧&后期 优秀寒假社会实践成果一等奖</p>
+                        <h3 class="text-2xl font-medium group-hover:text-gray-600 transition-colors">《党建引领驱动山海共富》</h3>
+                    </a>
+
+                    <!-- 作品 7 -->
+                    <div class="reveal img-zoom group" data-category="advertising">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <video src="advertising_compressed/2024学院奖-健胃消食片.mp4" preload="metadata" controls playsinline class="w-full h-full object-cover"></video>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">2024学院奖作品</p>
+                        <h3 class="text-2xl font-medium">健胃消食片</h3>
+                    </div>
+
+                    <!-- 作品 8 -->
+                    <div class="reveal img-zoom group" data-category="advertising">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <video src="advertising_compressed/2024学院奖-雀巢茶萃.mp4" preload="metadata" controls playsinline class="w-full h-full object-cover"></video>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">2024学院奖作品</p>
+                        <h3 class="text-2xl font-medium">雀巢茶萃</h3>
+                    </div>
+
+                    <!-- 作品 9 -->
+                    <div class="reveal img-zoom group" data-category="advertising">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <video src="advertising_compressed/丸味宠物新年广告.mp4" preload="metadata" controls playsinline class="w-full h-full object-cover"></video>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">独立负责</p>
+                        <h3 class="text-2xl font-medium">丸味宠物新年广告</h3>
+                    </div>
+
+                    <!-- 作品 10 -->
+                    <div class="reveal img-zoom group" data-category="advertising">
+                        <div class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+                            <video src="advertising_compressed/奇瑞qq官方广告.mp4" preload="metadata" controls playsinline class="w-full h-full object-cover"></video>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2 uppercase tracking-wider">任后期</p>
+                        <h3 class="text-2xl font-medium">奇瑞QQ官方广告</h3>
+                    </div>
+                </div>
+
+                <!-- 重点展示项目 (NeuLink) -->
+                <div class="mt-32 reveal w-full">
+                    <div class="bg-apple-dark text-white rounded-[40px] p-8 md:p-16 overflow-hidden relative group cursor-pointer">
+                        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-purple-500/30 to-blue-500/10 rounded-full blur-[100px] opacity-50 pointer-events-none"></div>
+                        
+                        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <span class="bg-white/10 text-white border border-white/20 px-3 py-1 rounded-full text-xs font-medium tracking-wide mb-6 inline-block">重点跨界项目 Featured</span>
+                                <h3 class="text-4xl md:text-5xl font-bold mb-6">NeuLink</h3>
+                                <p class="text-gray-400 text-lg mb-8 max-w-md">一款基于 AI 的校园社交产品。负责完整的产品概念设计、UI视觉逻辑推演以及初期用户增长策略制定。</p>
+                                
+                                <div class="grid grid-cols-2 gap-6 mb-8 border-t border-white/10 pt-8">
+                                    <div>
+                                        <div class="text-gray-500 text-sm mb-1">设计输出</div>
+                                        <div class="font-medium">UI设计 / 产品视觉</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-gray-500 text-sm mb-1">核心模块</div>
+                                        <div class="font-medium">产品逻辑 / 增长引擎</div>
+                                    </div>
+                                </div>
+
+                                <button class="flex items-center gap-2 text-white hover:text-gray-300 transition-colors pb-1 border-b border-white/30 hover:border-white">
+                                    查看完整案例解析 <i class="ph ph-arrow-right"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- UI mockup placeholder -->
+                            <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-[#0f0f11] border border-white/10 aspect-[4/3] group-hover:-translate-y-2 transition-transform duration-500">
+                                <img src="https://images.unsplash.com/photo-1618761714954-0b8cd0026356?q=80&w=2940&auto=format&fit=crop" alt="NeuLink UI Design" class="w-full h-full object-cover opacity-80 mix-blend-screen">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 right-6">
+                                    <p class="text-xs text-gray-400 font-mono">App Interface & Interaction Flow</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 四、联系方式 (Contact Section) -->
+        <section id="contact" class="py-32 px-8 md:px-24 bg-white relative">
+            <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
+                <p class="reveal text-xs tracking-[0.2em] text-gray-400 uppercase mb-8">Let's Create / 合作联系</p>
+                
+                <h2 class="reveal text-4xl md:text-6xl lg:text-8xl font-light tracking-tight mb-12 hover:text-gray-600 transition-colors cursor-pointer">
+                    hello@youyou.work
+                </h2>
+
+                <div class="reveal flex gap-8 mb-24">
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors flex items-center gap-2 text-lg">
+                        <i class="ph ph-phone"></i> +86 138-XXXX-XXXX
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-black transition-colors flex items-center gap-2 text-lg">
+                        <i class="ph ph-wechat-logo"></i> WeChat
+                    </a>
+                </div>
+
+                <!-- 底部 Social Links -->
+                <div class="reveal w-full flex flex-col md:flex-row justify-between items-center border-t border-gray-100 pt-8 mt-12">
+                    <p class="text-sm text-gray-400">© 2026 Youyou Wu. All rights reserved.</p>
+                    <div class="flex gap-6 mt-4 md:mt-0">
+                        <a href="#" class="text-sm font-medium text-gray-400 hover:text-black transition-colors uppercase tracking-wider">Vimeo</a>
+                        <a href="#" class="text-sm font-medium text-gray-400 hover:text-black transition-colors uppercase tracking-wider">Behance</a>
+                        <a href="#" class="text-sm font-medium text-gray-400 hover:text-black transition-colors uppercase tracking-wider">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript 交互与动效 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. 移动端菜单控制
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            let isMenuOpen = false;
+
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                if (isMenuOpen) {
+                    mobileMenu.classList.remove('hidden');
+                    // setTimeout to allow display:block to apply before transition
+                    setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
+                    menuBtn.innerHTML = '<i class="ph ph-x"></i>';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileMenu.classList.add('opacity-0');
+                    setTimeout(() => mobileMenu.classList.add('hidden'), 300);
+                    menuBtn.innerHTML = '<i class="ph ph-list"></i>';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            menuBtn.addEventListener('click', toggleMenu);
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if(isMenuOpen) toggleMenu();
+                });
+            });
+
+            // 2. 滚动揭示动画 (Scroll Reveal)
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // 可选：揭示后停止观察
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.1, // 元素出现 10% 即触发
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // 2.5 作品分类筛选
+            const filterBtns = document.querySelectorAll('#portfolio-filters button');
+            const portfolioItems = document.querySelectorAll('[data-category]');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 切换按钮样式
+                    filterBtns.forEach(b => {
+                        b.classList.remove('text-black', 'border-b', 'border-black', 'pb-1');
+                        b.classList.add('text-gray-400');
+                    });
+                    btn.classList.remove('text-gray-400');
+                    btn.classList.add('text-black', 'border-b', 'border-black', 'pb-1');
+
+                    const filter = btn.dataset.filter;
+
+                    portfolioItems.forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.opacity = '0';
+                            item.style.display = '';
+                            setTimeout(() => { item.style.opacity = '1'; }, 50);
+                        } else {
+                            item.style.opacity = '0';
+                            setTimeout(() => { item.style.display = 'none'; }, 300);
+                        }
+                    });
+                });
+            });
+
+            // 3. 导航栏滚动监听 (高亮当前区域)
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const navIndicators = document.querySelectorAll('.nav-indicator');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // 当滚动超过区域顶部一定距离时，视为进入该区域
+                    if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach((link, index) => {
+                    link.classList.remove('text-black', 'font-bold');
+                    link.classList.add('text-gray-400');
+                    navIndicators[index].classList.remove('opacity-100');
+                    navIndicators[index].classList.add('opacity-0');
+                    
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.remove('text-gray-400');
+                        link.classList.add('text-black', 'font-bold');
+                        navIndicators[index].classList.remove('opacity-0');
+                        navIndicators[index].classList.add('opacity-100');
+                    }
+                });
+            });
+            
+            // 初始化触发一次滚动监听以设置初始状态
+            window.dispatchEvent(new Event('scroll'));
+        });
+    </script>
+</body>
+</html>
